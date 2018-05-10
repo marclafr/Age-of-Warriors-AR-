@@ -5,18 +5,18 @@ using UnityEngine.SceneManagement;
 
 public class SwapScenesManager : MonoBehaviour
 {
-	public void GoToMainMenu()
-	{
-		SceneManager.LoadScene("MainMenuScene");
-	}
+    public void GoToMainMenu()
+    {
+        SceneManager.LoadScene("MainMenuScene");
+    }
 
-	public void StartGame()
-	{
-		SceneManager.LoadScene("Game");
-	}
+    public void StartGame()
+    {
+        SceneManager.LoadScene("Game");
+    }
 
-	public void QuitGame()
-	{
-		Application.Quit();
-	}
+    public void QuitGame()
+    {
+        Application.Quit();
+    }
 }

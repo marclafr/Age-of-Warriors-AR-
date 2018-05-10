@@ -14,7 +14,7 @@ public class PlayerBaseController : MonoBehaviour
     }
 
     public GameObject melee_soldier;
-	public GameObject ranged_soldier;
+    public GameObject ranged_soldier;
     public GameObject cavalry_soldier;
 
     public Text gold_txt;
@@ -30,20 +30,20 @@ public class PlayerBaseController : MonoBehaviour
     public int ranged_soldier_cost = 75;
     public int cavalry_soldier_cost = 125;
 
-    void Start ()
+    void Start()
     {
         training = false;
         training_delay_timer = 0.0f;
         training_type = SOLDIER_TYPE.S_NONE;
         UpdateGoldText();
     }
-	
-	void Update ()
+
+    void Update()
     {
-		if (training)
+        if (training)
         {
             training_delay_timer += Time.deltaTime;
-            if(training_delay_timer >= training_delay)
+            if (training_delay_timer >= training_delay)
             {
                 training = false;
                 training_delay_timer = 0.0f;
@@ -58,13 +58,13 @@ public class PlayerBaseController : MonoBehaviour
                         GetComponent<BaseManager>().SetStates(copy_melee, training_type);
                         break;
                     case SOLDIER_TYPE.S_RANGED:
-						GameObject copy_ranged = Instantiate(ranged_soldier, null);
+                        GameObject copy_ranged = Instantiate(ranged_soldier, null);
                         copy_ranged.GetComponent<SoldiersManager>().enabled = true;
                         copy_ranged.transform.position = gameObject.transform.position;
                         GetComponent<BaseManager>().SetStates(copy_ranged, training_type);
                         break;
                     case SOLDIER_TYPE.S_CAVALRY:
-						GameObject copy_cavalry = Instantiate(cavalry_soldier, null);
+                        GameObject copy_cavalry = Instantiate(cavalry_soldier, null);
                         copy_cavalry.GetComponent<SoldiersManager>().enabled = true;
                         copy_cavalry.transform.position = gameObject.transform.position;
                         GetComponent<BaseManager>().SetStates(copy_cavalry, training_type);
@@ -72,10 +72,10 @@ public class PlayerBaseController : MonoBehaviour
                     default:
                         break;
                 }
-                
+
             }
         }
-	}
+    }
 
     public void CreateSoldier(int type)
     {

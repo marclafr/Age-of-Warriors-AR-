@@ -2,11 +2,12 @@
 using System.Collections;
 using Vuforia;
 
-public class CameraFocusController : MonoBehaviour {
+public class CameraFocusController : MonoBehaviour
+{
 
     private bool mVuforiaStarted = false;
 
-    void Start () 
+    void Start()
     {
         VuforiaARController vuforia = VuforiaARController.Instance;
 
