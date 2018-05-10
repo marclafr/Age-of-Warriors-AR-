@@ -18,6 +18,14 @@ public class PlayerBaseController : MonoBehaviour
     public GameObject cavalry_soldier;
 
     public Text gold_txt;
+    public GameObject update_btn;
+    public Image max_update_img;
+    public float gold_gain_speed = 20.0f;
+    public int gold_update_cost = 50;
+    public int current_gold_update = 1;
+    public int max_gold_updates = 5;
+    public float gold_update_multiplier = 1.2f;
+    public float gold_update_cost_multiplier = 2.0f;
 
     public float training_delay = 1.0f;
     private float training_delay_timer = 0.0f;
@@ -25,7 +33,7 @@ public class PlayerBaseController : MonoBehaviour
     private SOLDIER_TYPE training_type;
 
     [Header("Costs")]
-    public int gold = 200;
+    public float gold = 200;
     public int melee_soldier_cost = 25;
     public int ranged_soldier_cost = 75;
     public int cavalry_soldier_cost = 125;
@@ -40,6 +48,9 @@ public class PlayerBaseController : MonoBehaviour
 
     void Update()
     {
+        gold += (Time.deltaTime * gold_gain_speed);
+        UpdateGoldText();
+
         if (training)
         {
             training_delay_timer += Time.deltaTime;
@@ -126,6 +137,26 @@ public class PlayerBaseController : MonoBehaviour
 
     private void UpdateGoldText()
     {
-        gold_txt.text = gold.ToString();
+        gold_txt.text = ((int)gold).ToString();
+    }
+
+    public void IncrementGoldSpeed()
+    {
+        if (gold > gold_update_cost)
+        {
+            if (current_gold_update <= max_gold_updates)
+            {
+                current_gold_update++;
+                gold -= gold_update_cost;
+                gold_update_cost = (int)(gold_update_cost * gold_update_cost_multiplier);
+                gold_gain_speed *= gold_update_multiplier;
+            }
+
+            if (current_gold_update > max_gold_updates)
+            {
+                update_btn.SetActive(false);
+                max_update_img.enabled = true;
+            }
+        }
     }
 }
