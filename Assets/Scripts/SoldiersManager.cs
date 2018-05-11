@@ -39,8 +39,10 @@ public class SoldiersManager : MonoBehaviour
 
     private bool fighting = false;
     private bool to_delete = false;
+	public float disappear_time = 2.5f;
+	private float disappear_timer = 0.0f;
 
-    public int enemy_layer_int = 8; // 8 is enemy layer
+    private int enemy_layer_int = 8; // 8 is enemy layer
 
     private Animator anim;
 
@@ -61,6 +63,7 @@ public class SoldiersManager : MonoBehaviour
         apply_dmg_timer = 0.0f;
         fighting = false;
         to_delete = false;
+		disappear_timer = 0.0f;
 
         anim = GetComponent<Animator>();
         anim.SetBool("walking", true);
@@ -132,25 +135,28 @@ public class SoldiersManager : MonoBehaviour
 		}
         if (to_delete)
         {
-			switch(type)
+			/*switch(type)
 			{
 			case PlayerBaseController.SOLDIER_TYPE.S_MELEE:
 				if (anim.GetCurrentAnimatorStateInfo (0).IsName ("Footman_Death"))
 					Destroy (gameObject);
 				break;
 			case PlayerBaseController.SOLDIER_TYPE.S_RANGED:
-				if (anim.GetCurrentAnimatorStateInfo (0).IsName ("Death1"))
+				if (anim.GetCurrentAnimatorStateInfo (1).IsName ("Death1"))
 					Destroy (gameObject);
 				break;
 			case PlayerBaseController.SOLDIER_TYPE.S_CAVALRY:
-				if (anim.GetCurrentAnimatorStateInfo (0).IsName ("-"))
+				if (anim.GetCurrentAnimatorStateInfo (2).IsName ("OrcWarrior_Death"))
 					Destroy (gameObject);
 				break;
 			case PlayerBaseController.SOLDIER_TYPE.S_NONE:
 			default:
 				Debug.Log ("Error: no type deleting soldier");
 				break;
-			}
+			}*/
+			disappear_timer += Time.deltaTime;
+			if(disappear_timer >= disappear_time)
+				Destroy(gameObject);
 		}
     }
 
