@@ -55,6 +55,7 @@ public class BaseManager : MonoBehaviour
             {
                 soldier_melee_creation_timer = 0.0f;
                 GameObject copy = Instantiate(melee_soldier, null);
+				copy.SetActive(true);
                 copy.GetComponent<SoldiersManager>().enabled = true;
                 copy.transform.position = gameObject.transform.position;
                 SetStates(copy, PlayerBaseController.SOLDIER_TYPE.S_MELEE);
