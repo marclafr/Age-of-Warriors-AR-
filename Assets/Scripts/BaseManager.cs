@@ -58,6 +58,7 @@ public class BaseManager : MonoBehaviour
 				copy.SetActive(true);
                 copy.GetComponent<SoldiersManager>().enabled = true;
                 copy.transform.position = gameObject.transform.position;
+				copy.transform.position.Set (copy.transform.position.x, 0.0f, copy.transform.position.z);
                 SetStates(copy, PlayerBaseController.SOLDIER_TYPE.S_MELEE);
             }
         }

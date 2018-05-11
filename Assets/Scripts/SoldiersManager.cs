@@ -48,15 +48,18 @@ public class SoldiersManager : MonoBehaviour
 
     void Start()
     {
-        direction = (enemy_base.transform.position - ally_base.transform.position);
+		direction = (enemy_base.transform.position - ally_base.transform.position);
+		direction.y = 0.0f;
         direction.Normalize();
         if (gameObject.layer == enemy_layer_int)
         {
-            enemy_layer = LayerMask.NameToLayer("Ally");
+			transform.position = new Vector3(transform.position.x - 2.2f, 0.0f, transform.position.z);
+			enemy_layer = LayerMask.NameToLayer("Ally");
         }
         else
         {
-            enemy_layer = LayerMask.NameToLayer("Enemy");
+			transform.position = new Vector3(transform.position.x + 2.2f, 0.0f, transform.position.z);
+			enemy_layer = LayerMask.NameToLayer("Enemy");
         }
         state = S_STATE.S_MOVING;
         max_hp = hp;
@@ -90,7 +93,8 @@ public class SoldiersManager : MonoBehaviour
 					}
 				}
 
-				if (Mathf.Abs (Vector3.Distance (transform.position, enemy_base.transform.position)) <= attack_distance) {
+				if (Mathf.Abs (Vector3.Distance (transform.position, new Vector3(enemy_base.transform.position.x, 0.0f, enemy_base.transform.position.z))) <= attack_distance)
+				{
 					fighting = true;
 					target_fighting = enemy_base;
 					state = S_STATE.S_ATTACKING_BASE;
