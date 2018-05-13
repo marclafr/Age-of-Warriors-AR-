@@ -2,13 +2,19 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class BaseManager : MonoBehaviour
 {
     public bool is_AI = true;
     public float total_hp = 1000.0f;
-    public float soldier_melee_creation_time = 5.0f;
+    public Text hp_text;
+    public float soldier_melee_creation_time = 10.13f;
     private float soldier_melee_creation_timer = 0.0f;
+    public float soldier_ranged_creation_time = 13.48f;
+    private float soldier_ranged_creation_timer = 0.0f;
+    public float soldier_cavalry_creation_time = 27.56f;
+    private float soldier_cavalry_creation_timer = 0.0f;
     public GameObject melee_soldier;
     public GameObject ranged_soldier;
     public GameObject cavalry_soldier;
@@ -43,7 +49,9 @@ public class BaseManager : MonoBehaviour
     void Start()
     {
         hp = total_hp;
-        soldier_melee_creation_timer = 0.0f;
+        soldier_melee_creation_timer = 5.0f;
+        soldier_ranged_creation_timer = 0.0f;
+        soldier_cavalry_creation_timer = 0.0f;
     }
 
     void Update()
@@ -55,11 +63,33 @@ public class BaseManager : MonoBehaviour
             {
                 soldier_melee_creation_timer = 0.0f;
                 GameObject copy = Instantiate(melee_soldier, null);
-				copy.SetActive(true);
+                copy.SetActive(true);
                 copy.GetComponent<SoldiersManager>().enabled = true;
                 copy.transform.position = gameObject.transform.position;
-				copy.transform.position.Set (copy.transform.position.x, 0.0f, copy.transform.position.z);
+                copy.transform.position.Set(copy.transform.position.x, 0.0f, copy.transform.position.z);
                 SetStates(copy, PlayerBaseController.SOLDIER_TYPE.S_MELEE);
+            }
+            soldier_ranged_creation_timer += Time.deltaTime;
+            if (soldier_ranged_creation_timer >= soldier_ranged_creation_time)
+            {
+                soldier_ranged_creation_timer = 0.0f;
+                GameObject copy = Instantiate(ranged_soldier, null);
+                copy.SetActive(true);
+                copy.GetComponent<SoldiersManager>().enabled = true;
+                copy.transform.position = gameObject.transform.position;
+                copy.transform.position.Set(copy.transform.position.x, 0.0f, copy.transform.position.z);
+                SetStates(copy, PlayerBaseController.SOLDIER_TYPE.S_RANGED);
+            }
+            soldier_cavalry_creation_timer += Time.deltaTime;
+            if (soldier_cavalry_creation_timer >= soldier_cavalry_creation_time)
+            {
+                soldier_cavalry_creation_timer = 0.0f;
+                GameObject copy = Instantiate(cavalry_soldier, null);
+                copy.SetActive(true);
+                copy.GetComponent<SoldiersManager>().enabled = true;
+                copy.transform.position = gameObject.transform.position;
+                copy.transform.position.Set(copy.transform.position.x, 0.0f, copy.transform.position.z);
+                SetStates(copy, PlayerBaseController.SOLDIER_TYPE.S_CAVALRY);
             }
         }
     }
@@ -67,12 +97,17 @@ public class BaseManager : MonoBehaviour
     public void ApplyDamage(float dmg)
     {
         hp -= dmg;
+        if (is_AI)
+            hp_text.text = "Enemy Base HP: " + hp.ToString() + " / 1000";
+        else
+            hp_text.text = "Base HP: " + hp.ToString() + " / 1000";
+
         if (hp <= 0)
         {
             if (is_AI)
-                Defeat();
-            else
                 Victory();
+            else
+                Defeat();
         }
     }
 

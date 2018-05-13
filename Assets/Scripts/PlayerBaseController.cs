@@ -89,7 +89,6 @@ public class PlayerBaseController : MonoBehaviour
                     default:
                         break;
                 }
-
             }
         }
     }
@@ -143,7 +142,7 @@ public class PlayerBaseController : MonoBehaviour
 
     private void UpdateGoldText()
     {
-        gold_txt.text = ((int)gold).ToString();
+        gold_txt.text = "Gold: " + ((int)gold).ToString();
     }
 
     public void IncrementGoldSpeed()

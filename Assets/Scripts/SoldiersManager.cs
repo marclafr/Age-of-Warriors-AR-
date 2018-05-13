@@ -39,8 +39,8 @@ public class SoldiersManager : MonoBehaviour
 
     private bool fighting = false;
     private bool to_delete = false;
-	public float disappear_time = 2.5f;
-	private float disappear_timer = 0.0f;
+    public float disappear_time = 2.5f;
+    private float disappear_timer = 0.0f;
 
     private int enemy_layer_int = 8; // 8 is enemy layer
 
@@ -48,25 +48,25 @@ public class SoldiersManager : MonoBehaviour
 
     void Start()
     {
-		direction = (enemy_base.transform.position - ally_base.transform.position);
-		direction.y = 0.0f;
+        direction = (enemy_base.transform.position - ally_base.transform.position);
+        direction.y = 0.0f;
         direction.Normalize();
         if (gameObject.layer == enemy_layer_int)
         {
-			transform.position = new Vector3(transform.position.x - 2.2f, 0.0f, transform.position.z);
-			enemy_layer = LayerMask.NameToLayer("Ally");
+            transform.position = new Vector3(transform.position.x - 3.9f, 0.0f, transform.position.z);
+            enemy_layer = LayerMask.NameToLayer("Ally");
         }
         else
         {
-			transform.position = new Vector3(transform.position.x + 2.2f, 0.0f, transform.position.z);
-			enemy_layer = LayerMask.NameToLayer("Enemy");
+            transform.position = new Vector3(transform.position.x + 3.9f, 0.0f, transform.position.z);
+            enemy_layer = LayerMask.NameToLayer("Enemy");
         }
         state = S_STATE.S_MOVING;
         max_hp = hp;
         apply_dmg_timer = 0.0f;
         fighting = false;
         to_delete = false;
-		disappear_timer = 0.0f;
+        disappear_timer = 0.0f;
 
         anim = GetComponent<Animator>();
         anim.SetBool("walking", true);
@@ -74,94 +74,91 @@ public class SoldiersManager : MonoBehaviour
 
     void Update()
     {
-		if (!to_delete) {
-			Debug.DrawLine (transform.position, transform.position + direction.normalized * attack_distance, Color.yellow);
-			if (!fighting) {
-				RaycastHit target_hit;
-				if (Physics.Raycast (transform.position, direction, out target_hit, attack_distance, (1 << enemy_layer))) {
-					float d = Mathf.Abs (Vector3.Distance (ally_base.transform.position, enemy_base.transform.position));
-					float enemy_hit_dist = Mathf.Abs (Vector3.Distance (target_hit.transform.position, transform.position));
-					if (d > enemy_hit_dist) {
-						d = enemy_hit_dist;
-						fighting = true;
-						target_fighting = target_hit.transform.gameObject;
+        if (!to_delete)
+        {
+            Debug.DrawLine(transform.position, transform.position + direction.normalized * attack_distance, Color.yellow);
+            if (!fighting)
+            {
+                RaycastHit target_hit;
+                if (Physics.Raycast(transform.position, direction, out target_hit, attack_distance, (1 << enemy_layer)))
+                {
+                    float d = Mathf.Abs(Vector3.Distance(ally_base.transform.position, enemy_base.transform.position));
+                    float enemy_hit_dist = Mathf.Abs(Vector3.Distance(target_hit.transform.position, transform.position));
+                    if (d > enemy_hit_dist)
+                    {
+                        d = enemy_hit_dist;
+                        fighting = true;
+                        target_fighting = target_hit.transform.gameObject;
 
-						anim.SetBool ("walking", false);
-						anim.SetBool ("attacking", true);
+                        anim.SetBool("walking", false);
+                        anim.SetBool("attacking", true);
 
-						Debug.Log ("New Target fighting: " + target_fighting.name);
-					}
-				}
+                        Debug.Log("New Target fighting: " + target_fighting.name);
+                    }
+                }
 
-				if (Mathf.Abs (Vector3.Distance (transform.position, new Vector3(enemy_base.transform.position.x, 0.0f, enemy_base.transform.position.z))) <= attack_distance)
-				{
-					fighting = true;
-					target_fighting = enemy_base;
-					state = S_STATE.S_ATTACKING_BASE;
+                if (enemy_layer == enemy_layer_int)
+                {
+                    if (Mathf.Abs(Vector3.Distance(transform.position, new Vector3(enemy_base.transform.position.x - 3.5f, 0.0f, enemy_base.transform.position.z))) <= attack_distance)
+                    {
+                        AttackBase();
+                    }
+                }
+                else
+                {
+                    if (Mathf.Abs(Vector3.Distance(transform.position, new Vector3(enemy_base.transform.position.x + 3.5f, 0.0f, enemy_base.transform.position.z))) <= attack_distance)
+                    {
+                        AttackBase();
+                    }
+                }
+            }
 
-					anim.SetBool ("walking", false);
-					anim.SetBool ("attacking", true);
-
-					Debug.Log ("Attacking base");
-				}
-			}
-
-			if (state == S_STATE.S_MOVING) {
-				transform.position += direction * speed * Time.deltaTime;
-				if (Physics.Raycast (transform.position, direction, waiting_distance)) {
-					state = S_STATE.S_WAITING;
-					anim.SetBool ("walking", false);
-				}
-			} else if (state == S_STATE.S_WAITING) {
-				if (!Physics.Raycast (transform.position, direction, waiting_distance)) {
-					state = S_STATE.S_MOVING;
-					anim.SetBool ("walking", true);
-				}
-			}
-			// if state is attacking base does nothing, he destroys the base or dies
+            if (state == S_STATE.S_MOVING)
+            {
+                transform.position += direction * speed * Time.deltaTime;
+                if (Physics.Raycast(transform.position, direction, waiting_distance))
+                {
+                    state = S_STATE.S_WAITING;
+                    anim.SetBool("walking", false);
+                }
+            }
+            else if (state == S_STATE.S_WAITING)
+            {
+                if (!Physics.Raycast(transform.position, direction, waiting_distance))
+                {
+                    state = S_STATE.S_MOVING;
+                    anim.SetBool("walking", true);
+                }
+            }
+            // if state is attacking base does nothing, he destroys the base or dies
 
 
-			if (fighting) {
-				apply_dmg_timer += Time.deltaTime;
-				if (apply_dmg_timer >= (1.0f / attack_speed)) {
-					apply_dmg_timer = 0.0f;
-					if (target_fighting.name == "BaseAlly" || target_fighting.name == "BaseEnemy")
-						target_fighting.GetComponent<BaseManager> ().ApplyDamage (attack);
-					else {
-						if (target_fighting.GetComponent<SoldiersManager> ().ApplyDamage (attack)) {
-							fighting = false;
-							target_fighting = null;
-							anim.SetBool ("attacking", false);
-						}
-					}
-				}
-			}
-		}
+            if (fighting)
+            {
+                apply_dmg_timer += Time.deltaTime;
+                if (apply_dmg_timer >= (1.0f / attack_speed))
+                {
+                    apply_dmg_timer = 0.0f;
+                    if (target_fighting.name == "BaseAlly" || target_fighting.name == "BaseEnemy")
+                        target_fighting.GetComponent<BaseManager>().ApplyDamage(attack);
+                    else
+                    {
+                        if (target_fighting.GetComponent<SoldiersManager>().ApplyDamage(attack))
+                        {
+                            fighting = false;
+                            target_fighting = null;
+                            anim.SetBool("attacking", false);
+                        }
+                    }
+                }
+            }
+        }
         if (to_delete)
         {
-			/*switch(type)
-			{
-			case PlayerBaseController.SOLDIER_TYPE.S_MELEE:
-				if (anim.GetCurrentAnimatorStateInfo (0).IsName ("Footman_Death"))
-					Destroy (gameObject);
-				break;
-			case PlayerBaseController.SOLDIER_TYPE.S_RANGED:
-				if (anim.GetCurrentAnimatorStateInfo (1).IsName ("Death1"))
-					Destroy (gameObject);
-				break;
-			case PlayerBaseController.SOLDIER_TYPE.S_CAVALRY:
-				if (anim.GetCurrentAnimatorStateInfo (2).IsName ("OrcWarrior_Death"))
-					Destroy (gameObject);
-				break;
-			case PlayerBaseController.SOLDIER_TYPE.S_NONE:
-			default:
-				Debug.Log ("Error: no type deleting soldier");
-				break;
-			}*/
-			disappear_timer += Time.deltaTime;
-			if(disappear_timer >= disappear_time)
-				Destroy(gameObject);
-		}
+            disappear_timer += Time.deltaTime;
+            if (disappear_timer >= disappear_time)
+                Destroy(gameObject);
+        }
     }
 
     bool ApplyDamage(float dmg)
@@ -198,5 +195,17 @@ public class SoldiersManager : MonoBehaviour
             return true;
         }
         return false;
+    }
+
+    private void AttackBase()
+    {
+        fighting = true;
+        target_fighting = enemy_base;
+        state = S_STATE.S_ATTACKING_BASE;
+
+        anim.SetBool("walking", false);
+        anim.SetBool("attacking", true);
+
+        Debug.Log("Attacking base");
     }
 }
