@@ -46,6 +46,8 @@ public class SoldiersManager : MonoBehaviour
 
     private Animator anim;
 
+    public float extra_base_volume = 1.5f;
+
     void Start()
     {
         direction = (enemy_base.transform.position - ally_base.transform.position);
@@ -53,12 +55,12 @@ public class SoldiersManager : MonoBehaviour
         direction.Normalize();
         if (gameObject.layer == enemy_layer_int)
         {
-            transform.position = new Vector3(transform.position.x - 3.9f, 0.0f, transform.position.z);
+            transform.position = new Vector3(transform.position.x - extra_base_volume, 0.0f, transform.position.z);
             enemy_layer = LayerMask.NameToLayer("Ally");
         }
         else
         {
-            transform.position = new Vector3(transform.position.x + 3.9f, 0.0f, transform.position.z);
+            transform.position = new Vector3(transform.position.x + extra_base_volume, 0.0f, transform.position.z);
             enemy_layer = LayerMask.NameToLayer("Enemy");
         }
         state = S_STATE.S_MOVING;
@@ -99,14 +101,14 @@ public class SoldiersManager : MonoBehaviour
 
                 if (enemy_layer == enemy_layer_int)
                 {
-                    if (Mathf.Abs(Vector3.Distance(transform.position, new Vector3(enemy_base.transform.position.x - 3.5f, 0.0f, enemy_base.transform.position.z))) <= attack_distance)
+                    if (Mathf.Abs(Vector3.Distance(transform.position, new Vector3(enemy_base.transform.position.x - extra_base_volume - 0.25f, 0.0f, enemy_base.transform.position.z))) <= attack_distance)
                     {
                         AttackBase();
                     }
                 }
                 else
                 {
-                    if (Mathf.Abs(Vector3.Distance(transform.position, new Vector3(enemy_base.transform.position.x + 3.5f, 0.0f, enemy_base.transform.position.z))) <= attack_distance)
+                    if (Mathf.Abs(Vector3.Distance(transform.position, new Vector3(enemy_base.transform.position.x + extra_base_volume - 0.25f, 0.0f, enemy_base.transform.position.z))) <= attack_distance)
                     {
                         AttackBase();
                     }
