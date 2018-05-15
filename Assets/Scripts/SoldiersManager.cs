@@ -5,6 +5,9 @@ using UnityEngine.UI;
 
 public class SoldiersManager : MonoBehaviour
 {
+	public GameObject necromancer_particle_sysyem = null;
+	private GameObject attack_particle_system;
+
     public enum S_STATE
     {
         S_NONE = 0,
@@ -141,6 +144,14 @@ public class SoldiersManager : MonoBehaviour
                 if (apply_dmg_timer >= (1.0f / attack_speed))
                 {
                     apply_dmg_timer = 0.0f;
+
+					if(type == PlayerBaseController.SOLDIER_TYPE.S_RANGED && hp > 0) 
+					{
+						attack_particle_system = Instantiate(necromancer_particle_sysyem);
+						attack_particle_system.transform.position = target_fighting.transform.position;	
+						Invoke("DeleteNecromancerParticleSystem", 1);
+					}
+
                     if (target_fighting.name == "BaseAlly" || target_fighting.name == "BaseEnemy")
                         target_fighting.GetComponent<BaseManager>().ApplyDamage(attack);
                     else
@@ -210,4 +221,9 @@ public class SoldiersManager : MonoBehaviour
 
         Debug.Log("Attacking base");
     }
+
+	private void DeleteNecromancerParticleSystem()
+	{
+		Destroy(attack_particle_system);
+	}
 }

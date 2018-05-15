@@ -111,7 +111,7 @@ public class BaseManager : MonoBehaviour
         }
     }
 
-    public void SetStates(GameObject soldier, PlayerBaseController.SOLDIER_TYPE soldier_type)
+	public void SetStates(GameObject soldier, PlayerBaseController.SOLDIER_TYPE soldier_type, float extra_attack = 0.0f)
     {
         switch (soldier_type)
         {
@@ -120,7 +120,7 @@ public class BaseManager : MonoBehaviour
             case PlayerBaseController.SOLDIER_TYPE.S_MELEE:
                 soldier.GetComponent<SoldiersManager>().type = soldier_type;
                 soldier.GetComponent<SoldiersManager>().hp = hp_melee;
-                soldier.GetComponent<SoldiersManager>().attack = attack_melee;
+				soldier.GetComponent<SoldiersManager>().attack = attack_melee + extra_attack;
                 soldier.GetComponent<SoldiersManager>().attack_distance = attack_distance_melee;
                 soldier.GetComponent<SoldiersManager>().attack_speed = attack_speed_melee;
                 soldier.GetComponent<SoldiersManager>().speed = speed_melee;
@@ -130,7 +130,7 @@ public class BaseManager : MonoBehaviour
             case PlayerBaseController.SOLDIER_TYPE.S_RANGED:
                 soldier.GetComponent<SoldiersManager>().type = soldier_type;
                 soldier.GetComponent<SoldiersManager>().hp = hp_ranged;
-                soldier.GetComponent<SoldiersManager>().attack = attack_ranged;
+				soldier.GetComponent<SoldiersManager>().attack = attack_ranged + extra_attack;
                 soldier.GetComponent<SoldiersManager>().attack_distance = attack_distance_ranged;
                 soldier.GetComponent<SoldiersManager>().attack_speed = attack_speed_ranged;
                 soldier.GetComponent<SoldiersManager>().speed = speed_ranged;
@@ -140,7 +140,7 @@ public class BaseManager : MonoBehaviour
             case PlayerBaseController.SOLDIER_TYPE.S_CAVALRY:
                 soldier.GetComponent<SoldiersManager>().type = soldier_type;
                 soldier.GetComponent<SoldiersManager>().hp = hp_cavalry;
-                soldier.GetComponent<SoldiersManager>().attack = attack_cavalry;
+				soldier.GetComponent<SoldiersManager>().attack = attack_cavalry + extra_attack;
                 soldier.GetComponent<SoldiersManager>().attack_distance = attack_distance_cavalry;
                 soldier.GetComponent<SoldiersManager>().attack_speed = attack_speed_cavalry;
                 soldier.GetComponent<SoldiersManager>().speed = speed_cavalry;

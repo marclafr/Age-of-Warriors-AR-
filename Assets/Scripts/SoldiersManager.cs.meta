@@ -1,10 +1,15 @@
 fileFormatVersion: 2
 guid: 4f1362eaf8331804eaf4d6ea06388e67
-timeCreated: 1525760938
+timeCreated: 1526381578
 licenseType: Free
 MonoImporter:
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - necromancer_particle_sysyem: {fileID: 180950, guid: f2a398acbf213024aa23b14c390770bf,
+      type: 2}
+  - hp_bar: {instanceID: 0}
+  - ally_base: {instanceID: 0}
+  - enemy_base: {instanceID: 0}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 
