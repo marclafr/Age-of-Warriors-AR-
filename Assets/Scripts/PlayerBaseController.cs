@@ -18,8 +18,7 @@ public class PlayerBaseController : MonoBehaviour
     public GameObject cavalry_soldier;
 
     public Text gold_txt;
-    public GameObject update_btn;
-    public Image max_update_img;
+	public Image update_btn_img;
     public float gold_gain_speed = 20.0f;
     public int gold_update_cost = 50;
     public int current_gold_update = 1;
@@ -159,8 +158,7 @@ public class PlayerBaseController : MonoBehaviour
 
             if (current_gold_update > max_gold_updates)
             {
-                update_btn.SetActive(false);
-                max_update_img.enabled = true;
+				update_btn_img.color = new Vector4 (0.28f, 0.28f, 0.28f, 1.0f);
             }
         }
     }
