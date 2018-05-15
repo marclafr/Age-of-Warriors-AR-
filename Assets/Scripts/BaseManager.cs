@@ -46,12 +46,15 @@ public class BaseManager : MonoBehaviour
     public float speed_cavalry = 1.8f;
     public float waiting_distance_cavalry = 1.0f;
 
+    public List<GameObject> soldiers;
+
     void Start()
     {
         hp = total_hp;
         soldier_melee_creation_timer = 5.0f;
         soldier_ranged_creation_timer = 0.0f;
         soldier_cavalry_creation_timer = 0.0f;
+        soldiers = new List<GameObject>();
     }
 
     void Update()
@@ -68,6 +71,7 @@ public class BaseManager : MonoBehaviour
                 copy.transform.position = gameObject.transform.position;
                 copy.transform.position.Set(copy.transform.position.x, 0.0f, copy.transform.position.z);
                 SetStates(copy, PlayerBaseController.SOLDIER_TYPE.S_MELEE);
+                soldiers.Add(copy);
             }
             soldier_ranged_creation_timer += Time.deltaTime;
             if (soldier_ranged_creation_timer >= soldier_ranged_creation_time)
@@ -79,6 +83,7 @@ public class BaseManager : MonoBehaviour
                 copy.transform.position = gameObject.transform.position;
                 copy.transform.position.Set(copy.transform.position.x, 0.0f, copy.transform.position.z);
                 SetStates(copy, PlayerBaseController.SOLDIER_TYPE.S_RANGED);
+                soldiers.Add(copy);
             }
             soldier_cavalry_creation_timer += Time.deltaTime;
             if (soldier_cavalry_creation_timer >= soldier_cavalry_creation_time)
@@ -90,6 +95,7 @@ public class BaseManager : MonoBehaviour
                 copy.transform.position = gameObject.transform.position;
                 copy.transform.position.Set(copy.transform.position.x, 0.0f, copy.transform.position.z);
                 SetStates(copy, PlayerBaseController.SOLDIER_TYPE.S_CAVALRY);
+                soldiers.Add(copy);
             }
         }
     }

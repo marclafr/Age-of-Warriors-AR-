@@ -148,7 +148,7 @@ public class SoldiersManager : MonoBehaviour
 					if(type == PlayerBaseController.SOLDIER_TYPE.S_RANGED && hp > 0) 
 					{
 						attack_particle_system = Instantiate(necromancer_particle_sysyem);
-						attack_particle_system.transform.position = target_fighting.transform.position;	
+						attack_particle_system.transform.position = target_fighting.transform.position;
 						Invoke("DeleteNecromancerParticleSystem", 1);
 					}
 
@@ -170,17 +170,20 @@ public class SoldiersManager : MonoBehaviour
         {
             disappear_timer += Time.deltaTime;
             if (disappear_timer >= disappear_time)
+            {
+                ally_base.GetComponent<BaseManager>().soldiers.Remove(gameObject);
                 Destroy(gameObject);
+            }
         }
     }
 
-    bool ApplyDamage(float dmg)
+    public bool ApplyDamage(float dmg, bool recieve_gold = true)
     {
         hp -= dmg;
         hp_bar.fillAmount = (hp / max_hp);
         if (hp <= 0)
         {
-            if (gameObject.layer == enemy_layer_int)
+            if (recieve_gold && gameObject.layer == enemy_layer_int)
             {
                 switch (type)
                 {

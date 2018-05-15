@@ -76,6 +76,7 @@ public class PlayerBaseController : MonoBehaviour
                         copy_melee.transform.position = gameObject.transform.position;
 						copy_melee.transform.position.Set (copy_melee.transform.position.x, 0.0f, copy_melee.transform.position.z);
 						GetComponent<BaseManager>().SetStates(copy_melee, training_type, melee_extra_dmg);
+                        GetComponent<BaseManager>().soldiers.Add(copy_melee);
                         break;
                     case SOLDIER_TYPE.S_RANGED:
                         GameObject copy_ranged = Instantiate(ranged_soldier, null);
@@ -84,6 +85,7 @@ public class PlayerBaseController : MonoBehaviour
                         copy_ranged.transform.position = gameObject.transform.position;
 						copy_ranged.transform.position.Set (copy_ranged.transform.position.x, 0.0f, copy_ranged.transform.position.z);
 						GetComponent<BaseManager>().SetStates(copy_ranged, training_type, ranged_extra_dmg);
+                        GetComponent<BaseManager>().soldiers.Add(copy_ranged);
                         break;
                     case SOLDIER_TYPE.S_CAVALRY:
                         GameObject copy_cavalry = Instantiate(cavalry_soldier, null);
@@ -92,6 +94,7 @@ public class PlayerBaseController : MonoBehaviour
                         copy_cavalry.transform.position = gameObject.transform.position;
 						copy_cavalry.transform.position.Set (copy_cavalry.transform.position.x, 0.0f, copy_cavalry.transform.position.z);
 						GetComponent<BaseManager>().SetStates(copy_cavalry, training_type, cavalry_extra_dmg);
+                        GetComponent<BaseManager>().soldiers.Add(copy_cavalry);
                         break;
                     default:
                         break;
