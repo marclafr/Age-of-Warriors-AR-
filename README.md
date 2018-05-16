@@ -5,7 +5,7 @@ The objective is to destroy the enemy tower before they destroy yours.
 
 ## Install
 
-Download the .apk and install it into your Android device
+Download and extract the .zip from [here](https://github.com/marclafr/AR-Project/releases) and install the .apk into your Android device
 
 ## Start the game
 
