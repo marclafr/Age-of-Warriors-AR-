@@ -14,6 +14,7 @@ public class MarkerDetectionFireball : MonoBehaviour,	ITrackableEventHandler {
 
     public GameObject particle_system;
     public Text cd_text;
+    public UnityEngine.UI.Image cd_front_img;
     public float cooldown = 30.0f;
     private float cooldown_counter = 30.0f;
 
@@ -36,6 +37,7 @@ public class MarkerDetectionFireball : MonoBehaviour,	ITrackableEventHandler {
         if (cd_time < 0)
             cd_time = 0;
         cd_text.text = (cd_time).ToString();
+        cd_front_img.fillAmount = (1.0f - (cooldown_counter / cooldown));
 
         if (markerFound && cooldown_counter >= cooldown)
         {
