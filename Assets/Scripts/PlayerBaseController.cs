@@ -24,9 +24,10 @@ public class PlayerBaseController : MonoBehaviour
 	private float melee_extra_dmg;
 	private float ranged_extra_dmg;
 	private float cavalry_extra_dmg;
-
+    
     public Text gold_txt;
-	public Image update_btn_img;
+    public Image update_btn_img;
+    public Image update_gold_img;
     public float gold_gain_speed = 20.0f;
     public int gold_update_cost = 50;
     public int current_gold_update = 1;
@@ -152,7 +153,7 @@ public class PlayerBaseController : MonoBehaviour
 
     private void UpdateGoldText()
     {
-        gold_txt.text = "Gold: " + ((int)gold).ToString();
+        gold_txt.text = ((int)gold).ToString();
     }
 
     public void IncrementGoldSpeed()
@@ -169,7 +170,8 @@ public class PlayerBaseController : MonoBehaviour
 
             if (current_gold_update > max_gold_updates)
             {
-				update_btn_img.color = new Vector4 (0.28f, 0.28f, 0.28f, 1.0f);
+                update_btn_img.color = new Vector4(0.28f, 0.28f, 0.28f, 1.0f);
+                update_gold_img.color = new Vector4(0.28f, 0.28f, 0.28f, 1.0f);
             }
         }
     }
