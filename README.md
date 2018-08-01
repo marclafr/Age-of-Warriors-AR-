@@ -3,6 +3,11 @@ A little AR game made with Unity and Vuforia.
 
 The objective is to destroy the enemy tower before they destroy yours.
 
+## Game Captures
+
+ ![capture 1](https://s22.postimg.cc/o1k4dinvl/Screenshot_20180726-154219.png)
+ ![capture 2](https://s22.postimg.cc/qivvkvfip/Screenshot_20180726-153837.png)
+
 ## Install
 
 Download and extract the .zip from [here](https://github.com/marclafr/AR-Project/releases) and install the .apk into your Android device
@@ -25,17 +30,18 @@ To defeat the enemy tower you have 3 Units
  - The Mage: A distance soldier that hits slow but hard
  - The Orc: The strongest and most expensive unit in the game
  
- ### Upgrades
+
+### Upgrades
  
  You have 4 possible upgrades:
  - Upgrade the attack of each troop.
  - Upgrade the gold income you recieve over time (max 5 times, each time more expensive)
  
- ### Extra gold
+### Extra gold
  
  You also recieve a little amount of gold for each enemy defeated
  
- ### Special Skill
+### Special Skill
  
  By using this marker:
  
