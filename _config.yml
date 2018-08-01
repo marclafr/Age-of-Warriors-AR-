@@ -1,1 +1,4 @@
 theme: jekyll-theme-merlot
+
+title: Age of Warriors
+descrition: A little augmented reality game made with Unity and Vuforia. Your objective is to destroy the enemy tower before they destroy yours.
